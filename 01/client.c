@@ -78,6 +78,10 @@ int main()
     else {
         io_txt_buf[IO_BUF_LEN-1] = '\0';
     }
+
+    size_t msg_len = strlen(io_txt_buf);
+    if (msg_len > 0 && io_txt_buf[msg_len-1] == '\n') io_txt_buf[msg_len-1] = '\0';
+
     printf(">%s<", io_txt_buf);
 
     // close and exit
