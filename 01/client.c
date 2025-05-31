@@ -6,6 +6,9 @@
 #include <sys/socket.h>
 #include <arpa/inet.h>
 
+#define SERVER_IP "127.0.0.1"
+#define PORT 12345
+
 #define IO_BUF_LEN 255
 
 __attribute__((format(printf, 1, 2))) void report_msg(const char *fmt, ...) {
@@ -35,8 +38,8 @@ int main()
     report_msg("Initializing address data... ");
     struct sockaddr_in addr = {0};
     addr.sin_family = AF_INET;
-    addr.sin_port = htons(12345);
-    status = inet_aton("127.0.0.1", &addr.sin_addr);
+    addr.sin_port = htons(PORT);
+    status = inet_aton(SERVER_IP, &addr.sin_addr);
     if (status == 0) {
         fprintf(stderr, "Invalid address provided in address initialization!\n");
         goto ERR_COMM;
