@@ -14,14 +14,17 @@ int main()
     const char * err_msg = NULL;
     
     // create socket
+    printf("Creating socket... ");
     int sockfd = -1;
     sockfd = socket(AF_INET, SOCK_STREAM, 0);
     if (sockfd < 0) {
         err_msg = "Creating socket failed";
         goto ERR_COMM;
     }
+    printf("done\n");
     
     // create address data
+    printf("Initializing address data... ");
     struct sockaddr_in addr = {0};
     addr.sin_family = AF_INET;
     addr.sin_port = htons(12345);
@@ -30,28 +33,35 @@ int main()
         fprintf(stderr, "Invalid address provided in address initialization!\n");
         goto ERR_COMM;
     }
+    printf("done\n");
 
     // connect socket to address
+    printf("Connecting socket to address... ");
     status = connect(sockfd, (struct sockaddr *) &addr, sizeof(addr));
     if (status < 0) {
         err_msg = "Socket connection error";
         goto ERR_COMM;
     }
+    printf("done\n");
 
     // send message
+    printf("Sending data... ");
     snprintf(io_txt_buf, IO_BUF_LEN, "Hello from the Client!\n");
     ssize_t bytes_sent = send(sockfd, io_txt_buf, strlen(io_txt_buf), 0);
     if (bytes_sent < 0) {
         err_msg = "Sending data failed";
         goto ERR_COMM;
     }
+    printf("done\n");
 
     // receive message
+    printf("Receiveing data... ");
     ssize_t bytes_received = recv(sockfd, io_txt_buf, IO_BUF_LEN, 0);
     if (bytes_received < 0) {
         err_msg = "Receiving data failed";
         goto ERR_COMM;
     }
+    printf("done\n");
 
     // process message
     if (bytes_received >= 0 && bytes_received < IO_BUF_LEN) {
